@@ -1,0 +1,117 @@
+{
+  "pages": [
+    {
+      "path": "pages/index/index",
+      "style": {
+        "navigationBarTitleText": "文言斩",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/article/library",
+      "style": {
+        "navigationBarTitleText": "篇目库"
+      }
+    },
+    {
+      "path": "pages/word/card",
+      "style": {
+        "navigationBarTitleText": "背诵广场",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/user/me",
+      "style": {
+        "navigationBarTitleText": "我的",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/article/read",
+      "style": {
+        "navigationBarTitleText": "阅读",
+        "navigationStyle": "custom"
+      }
+    },
+    {
+      "path": "pages/article/detail",
+      "style": {
+        "navigationBarTitleText": "篇目详情"
+      }
+    },
+    {
+      "path": "pages/exam/write",
+      "style": {
+        "navigationBarTitleText": "默写刷题"
+      }
+    },
+    {
+      "path": "pages/exam/error",
+      "style": {
+        "navigationBarTitleText": "错题本"
+      }
+    },
+    {
+      "path": "pages/exam/result",
+      "style": {
+        "navigationBarTitleText": "批改结果"
+      }
+    },
+    {
+      "path": "pages/search/result",
+      "style": {
+        "navigationBarTitleText": "搜索"
+      }
+    },
+    {
+      "path": "pages/user/setting",
+      "style": {
+        "navigationBarTitleText": "学习设置"
+      }
+    },
+    {
+      "path": "pages/user/grade",
+      "style": {
+        "navigationBarTitleText": "选择学段"
+      }
+    },
+    {
+      "path": "pages/word/package",
+      "style": {
+        "navigationBarTitleText": "选择词包"
+      }
+    },
+    {
+      "path": "pages/paper/list",
+      "style": {
+        "navigationBarTitleText": "我的试卷"
+      }
+    },
+    {
+      "path": "pages/paper/preview",
+      "style": {
+        "navigationBarTitleText": "试卷预览"
+      }
+    },
+    {
+      "path": "pages/member/buy",
+      "style": {
+        "navigationBarTitleText": "会员开通"
+      }
+    },
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationBarTitleText": "登录",
+        "navigationStyle": "custom"
+      }
+    }
+  ],
+  "globalStyle": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "文言斩",
+    "navigationBarBackgroundColor": "#f5f1e8",
+    "backgroundColor": "#f5f1e8"
+  }
+}

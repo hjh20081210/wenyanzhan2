@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.wenyan</groupId>
+        <artifactId>wenyan-zhan</artifactId>
+        <version>1.0.0</version>
+    </parent>
+    <artifactId>wenyan-service</artifactId>
+    <name>wenyan-service</name>
+    <dependencies>
+        <dependency>
+            <groupId>com.wenyan</groupId>
+            <artifactId>wenyan-mapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+    </dependencies>
+</project>

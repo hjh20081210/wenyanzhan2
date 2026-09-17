@@ -1,0 +1,7 @@
+node_modules/
+dist/
+.unibuild/
+.hbuilderx/
+unpackage/
+.DS_Store
+*.local

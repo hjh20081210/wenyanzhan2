@@ -1,0 +1,35 @@
+{
+  "name": "文言斩",
+  "appid": "",
+  "description": "文言文学词App - 水墨国风",
+  "versionName": "1.0.0",
+  "versionCode": "100",
+  "transformPx": false,
+  "mp-weixin": {
+    "appid": "",
+    "setting": { "urlCheck": false, "es6": true, "minified": true },
+    "usingComponents": true,
+    "permission": {},
+    "requiredPrivateInfos": []
+  },
+  "app-plus": {
+    "usingComponents": true,
+    "nvueStyleCompiler": "uni-app",
+    "compilerVersion": 3,
+    "splashscreen": { "alwaysShowBeforeRender": true, "waiting": true },
+    "modules": {},
+    "distribute": {
+      "android": {},
+      "ios": {},
+      "sdkConfigs": {}
+    }
+  },
+  "quickapp": {},
+  "h5": {
+    "title": "文言斩",
+    "router": { "mode": "hash" },
+    "devServer": { "proxy": { "/api": { "target": "http://127.0.0.1:8080", "changeOrigin": true } } }
+  },
+  "vueVersion": "3",
+  "locale": "zh-Hans"
+}
