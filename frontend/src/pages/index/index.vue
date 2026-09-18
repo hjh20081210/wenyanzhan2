@@ -8,9 +8,15 @@
             <text class="logo">文言斩</text>
             <text class="slogan">朝吟暮诵 · 墨染书香</text>
           </view>
-          <view class="search-btn" @tap="go('/pages/search/result')">
-            <text class="search-icon">🔍</text>
-            <text class="search-placeholder">搜索篇目/字词</text>
+          <view class="head-actions">
+            <view class="dict-btn" @tap="go('/pages/dictionary/index')">
+              <text class="dict-icon">📖</text>
+              <text class="dict-text">字典</text>
+            </view>
+            <view class="search-btn" @tap="go('/pages/search/result')">
+              <text class="search-icon">🔍</text>
+              <text class="search-placeholder">搜索篇目/字词</text>
+            </view>
           </view>
         </view>
 
@@ -133,6 +139,10 @@ onMounted(async () => {
 .page-night { background-color: #1e1d1a; min-height: 100vh; }
 .content { position: relative; padding: 30rpx; padding-bottom: 140rpx; }
 .header { display: flex; justify-content: space-between; align-items: center; padding: 40rpx 10rpx 10rpx; }
+.head-actions { display: flex; align-items: center; gap: 14rpx; }
+.dict-btn { display: flex; align-items: center; gap: 8rpx; height: 64rpx; padding: 0 22rpx; border-radius: 32rpx; background: #9b5b3a; }
+.dict-icon { font-size: 26rpx; }
+.dict-text { font-size: 24rpx; color: #f5f1e8; }
 .logo { font-size: 52rpx; font-weight: bold; color: #2c2c2c; font-family: '霞鹭文楷', 'KaiTi', serif; }
 .slogan { display: block; font-size: 22rpx; color: #727272; margin-top: 6rpx; }
 .search-btn { display: flex; align-items: center; gap: 8rpx; width: 240rpx; height: 64rpx; border-radius: 32rpx; background: rgba(255,255,255,0.8); border: 2rpx solid #ddd7c9; padding: 0 20rpx; }

@@ -15,6 +15,7 @@ public interface AuthConstant {
         "/api/question/list",
         "/api/word/list",
         "/api/word/detail",
+        "/api/dict/**",
         "/doc.html", "/webjars/**", "/swagger-ui/**", "/v3/api-docs/**"
     };
 }

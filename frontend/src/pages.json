@@ -106,6 +106,12 @@
         "navigationBarTitleText": "登录",
         "navigationStyle": "custom"
       }
+    },
+    {
+      "path": "pages/dictionary/index",
+      "style": {
+        "navigationBarTitleText": "汉字字典"
+      }
     }
   ],
   "globalStyle": {

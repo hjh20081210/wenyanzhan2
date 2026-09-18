@@ -15,7 +15,7 @@
       </view>
       <view class="content-body" :style="contentStyle">
         <block v-for="(seg, i) in segs" :key="i">
-          <view class="seg" @tap="openNote(i)">
+          <view class="seg" @tap="openNote(i)" @longpress="queryDict(seg)">
             <text class="seg-text">{{ seg }}</text>
             <!-- 划线标记区 -->
             <view class="seg-note" v-if="showTranslate">
@@ -87,6 +87,12 @@ function addBookmark() {
 function openNote(i: number) {
   currentNote.value = `第${i + 1}句注释：\n` + (article.value?.notes || '此处为重点句式。\n（演示注释，正式数据由后端返回）')
   noteVisible.value = true
+}
+/** 长按取词：取句中第一个汉字跳字典查询 */
+function queryDict(seg: string) {
+  const m = (seg || '').match(/[\u4e00-\u9fa5]/)
+  const entry = m ? m[0] : (seg || '').charAt(0)
+  uni.navigateTo({ url: `/pages/dictionary/index?entry=${encodeURIComponent(entry)}` })
 }
 function closeNote() {
   noteVisible.value = false

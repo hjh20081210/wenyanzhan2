@@ -75,3 +75,9 @@ export const memberApi = {
   subscribe: (months: number) => post('/api/member/subscribe', { months }),
   quota: () => get('/api/member/quota'),
 }
+
+export const dictApi = {
+  lookup: (entry: string) => get('/api/dict/lookup', { entry }),
+  search: (keyword: string, limit?: number) => get('/api/dict/search', { keyword, limit }),
+  hot: (limit?: number) => get('/api/dict/hot', { limit }),
+}

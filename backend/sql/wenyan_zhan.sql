@@ -290,3 +290,24 @@ CREATE TABLE IF NOT EXISTS `user_article_note` (
 --  exam_question ← Binkic/Reciter + 人工改写
 --  所有原始素材面向用户展示前必须人工二次改写，规避版权风险
 -- ============================================================
+-- ============================================================
+-- V1.4 新增：字典查询
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `dictionary` (
+  `dict_id`    BIGINT      NOT NULL COMMENT '词典ID 雪花主键',
+  `entry`      VARCHAR(32) NOT NULL COMMENT '查询词条(单字或词)',
+  `type`       TINYINT     NOT NULL DEFAULT 1 COMMENT '类型 1单字/2词组',
+  `pinyin`     VARCHAR(64) COMMENT '拼音(带声调)',
+  `radical`    VARCHAR(16) COMMENT '部首',
+  `stroke`     INT COMMENT '笔画数',
+  `wubi`       VARCHAR(16) COMMENT '五笔',
+  `explain`    TEXT        COMMENT '释义(JSON数组: 每条含释义+例句+出处)',
+  `source`     VARCHAR(128) COMMENT '来源(如:古汉语常用字字典/说文解字)',
+  `idf`        DOUBLE      COMMENT '词频权重',
+  `hit_count`  INT         NOT NULL DEFAULT 0 COMMENT '查询次数',
+  `create_time` DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`dict_id`),
+  KEY `idx_entry` (`entry`),
+  KEY `idx_type` (`type`)
+) ENGINE=InnoDB COMMENT='文言文字典';

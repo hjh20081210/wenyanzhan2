@@ -19,7 +19,9 @@ wenyanzhan/
 │   ├── wenyan-mapper/        # MyBatis-Plus Mapper
 │   ├── wenyan-service/       # 业务逻辑 (SRS / 打卡 / 组卷 / 会员 / 批改)
 │   ├── wenyan-api/           # Controller / 拦截器 / 定时任务 / 启动类
+│   ├── scripts/              # 开源数据源导入脚本 (Python)
 │   └── sql/wenyan_zhan.sql   # MySQL 完整建表脚本(含测试数据)
+│   └── sql/seed_dictionary.sql # 字典种子数据(常用文言虚词/实词)
 └── frontend/                 # 前端 (UniApp Vue3)
     └── src/
         ├── pages/            # 页面 (Tabbar4 + 二级页面)
@@ -36,6 +38,12 @@ wenyanzhan/
 mysql -uroot -p < backend/sql/wenyan_zhan.sql
 ```
 （建库 `wenyan_zhan`，自动建表并插入演示篇目/字词/题目）
+
+字典功能可选导入种子数据（内置常用文言虚词/实词，脱库即可体验查字）：
+```bash
+mysql -uroot -p wenyan_zhan < backend/sql/seed_dictionary.sql
+```
+完整词典请用下方数据源导入脚本。
 
 ### 2. 后端
 ```bash
@@ -82,6 +90,9 @@ npm run dev:app     # APP (需 HBuilderX)
 | 组卷 | GET | /paper/list | 我的试卷 |
 | 组卷 | GET | /paper/export-html | HTML打印(免费) |
 | 组卷 | GET | /paper/export-pdf | PDF导出(会员+手机号) |
+| 字典 | GET | /dict/lookup | 查字词释义(按字/词精确匹配) |
+| 字典 | GET | /dict/search | 搜索字词(前缀/模糊) |
+| 字典 | GET | /dict/hot | 热门查词榜 |
 | 用户 | POST | /user/save-grade | 保存学段 |
 | 用户 | POST | /user/setting/save-remind | 保存打卡提醒 |
 | 用户 | POST | /user/setting/save-ui | 保存UI/字体配置 |
@@ -97,11 +108,28 @@ npm run dev:app     # APP (需 HBuilderX)
 - **打卡日历**：按做题/SRS 记录自动判定当日打卡，含连续天数统计。
 - **打卡提醒**：定时任务每分钟扫描，同一用户当日只推一次（含昵称 App/微信服务通知，生产接入推送通道）。
 - **商业化**：初始免费额度 150，斩新词扣额度，会员无限量 + 高阶真题 + PDF 导出。
+- **汉字字典**：`/pages/dictionary` 页面支持查字/词组、拼音、部首笔画、释义例句（JSON）、热门词榜；阅读页长按取词直达查询。释义字段 `explain` 为 JSON 数组 `[{def, example}]`。
 
 ## 数据源
 - 篇目库：`hefengbao/jingmo`（古诗文完整库，含注释译文赏析）
 - 课内课文：`hantang/yuwen`
 - 默写题库：`Binkic/Reciter`（MIT）
 - 字词数据：`jiaeyan/Jiayan`
+- 字典数据：`pwxcoo/chinese-xinhua` 的 `word.json`（1.6 万汉字）+ 内置种子数据
 
-> 测试数据为少量样例，生产请按上述数据源导入到 `article` / `word_lib` / `write_exercise` / `exam_question` 表。
+### 数据导入脚本（backend/scripts/）
+需先 clone/下载对应开源仓库数据，再将数据写入 `article` / `word_lib` / `write_exercise` / `dictionary` 表。脚本默认导出 SQL 文件（`--out`），也可在 MySQL 运行的环境直接写库（`--db`）。
+```bash
+# 字典：chinese-xinhua word.json -> dictionary（生产完整词典）
+python3 import_dict.py --word /path/word.json --out dictionary.sql
+
+# 篇目库：jingmo 诗文 -> article
+python3 import_jingmo.py --data /path/jingmo --out article.sql --genre 诗
+
+# 课内课文：yuwen Markdown -> article
+python3 import_yuwen.py --dir /path/yuwen/mds --out yuwen.sql --grade 2
+
+# 默写题库：Reciter -> write_exercise
+python3 import_reciter.py --md /path/normal_file.md --title '岳阳楼记' --type 1
+```
+> 完整字典数据量大（`word.json` 约几十 MB），建议先 clone 一次后离线导入。
