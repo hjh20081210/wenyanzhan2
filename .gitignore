@@ -1,0 +1,22 @@
+# 开源数据源原始克隆仓库（体积大，不入版本库，由导入脚本抓取/本地保留）
+data_repos/
+
+# 前端依赖/构建产物
+frontend/node_modules/
+frontend/dist/
+frontend/unpackage/
+frontend/.hbuilderx/
+frontend/.unibuild/
+
+# 后端构建产物
+backend/**/target/
+
+# 数据导入产物（体积大，不入版本库；脚本可重新生成，需时用 mysql 导入）
+data_import/*.sql
+
+# 系统
+.DS_Store
+*.log
+# Python 缓存
+__pycache__/
+*.pyc

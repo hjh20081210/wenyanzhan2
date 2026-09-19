@@ -75,12 +75,16 @@ def main():
             batch.clear()
 
     words = load_json(args.word)
+    seen = set()  # 去重
     for w in words:
         if args.limit and count >= args.limit:
             break
         entry = w.get("word")
         if not entry:
             continue
+        if entry in seen:
+            continue
+        seen.add(entry)
         explain = parse_explanation(w.get("explanation"))
         row = (
             sf.next_id(), entry, 1,
