@@ -9,8 +9,35 @@ jingmo-data3 海量文言文章分批分卷生成器
 """
 import argparse, glob, json, os, sys
 sys.path.insert(0, os.path.dirname(__file__))
-from import_jingmo_data import parse_writing
 from common import write_batch
+
+def _content(v):
+    """取嵌套对象的 Content 字段: 接受 dict/str/None"""
+    if isinstance(v, dict):
+        return v.get('Content') or ''
+    return v or ''
+
+def parse_data3(o):
+    """data3 单篇: Title/Clauses 为嵌套对象, 提取原文+注释+赏析"""
+    title = _content(o.get('Title'))
+    if not title:
+        return None
+    author = o.get('Author') or ''
+    dynasty = o.get('Dynasty') or ''
+    clauses = o.get('Clauses') or []
+    content = '\n'.join(_content(c) for c in clauses if isinstance(c, dict))
+    note = o.get('Note') or ''
+    preface = o.get('Preface') or ''
+    if isinstance(preface, dict):
+        preface = _content(preface)
+    comments = o.get('Comments') or ''
+    if isinstance(comments, (list, dict)):
+        comments = json.dumps(comments, ensure_ascii=False)
+    notes = json.dumps({'preface': preface, 'note': str(note)}, ensure_ascii=False)
+    genre = o.get('Type') or '古文'
+    return dict(title=str(title)[:128], author=author, dynasty=dynasty,
+                content=content, translate=None, appreciate=str(comments or ''),
+                notes=notes, genre=genre, source='hefengbao/jingmo-data3')
 
 def iter_data(path):
     raw = json.load(open(path, encoding='utf-8'))
@@ -39,7 +66,7 @@ def main():
         if out_f is None:
             out_f = open(os.path.join(a.outdir, 'part_%03d.sql' % shard_idx), 'w', encoding='utf-8')
         for o in iter_data(fp):
-            rec = parse_writing(o)
+            rec = parse_data3(o)
             if not rec:
                 continue
             rows.append(('rd3_%d_%d' % (shard_idx, len(rows)), rec['title'], rec['author'], rec['dynasty'],
