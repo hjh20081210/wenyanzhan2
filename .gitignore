@@ -11,8 +11,9 @@ frontend/.unibuild/
 # 后端构建产物
 backend/**/target/
 
-# 数据导入产物（体积大，不入版本库；脚本可重新生成，需时用 mysql 导入）
-data_import/*.sql
+# 数据导入产物：核心数据 SQL 入版本库（部署直接可用）；仅忽略超大中间生成的临时分卷
+data_import/*.tmp.sql
+data_import/full_*/
 
 # 系统
 .DS_Store

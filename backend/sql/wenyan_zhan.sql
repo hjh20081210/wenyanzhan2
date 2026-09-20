@@ -79,6 +79,8 @@ CREATE TABLE IF NOT EXISTS `article` (
   `notes`       TEXT         COMMENT '注释JSON',
   `genre`       VARCHAR(32)  COMMENT '体裁(散文/诗词/传记...)',
   `grade`       TINYINT      NOT NULL DEFAULT 0 COMMENT '学段 0通用/1初中/2高中/3小学',
+  `book`        VARCHAR(64)  COMMENT '教材分册(如 人教版语文七年级上册)',
+  `pinyin`      VARCHAR(128) COMMENT '篇名拼音(按书整理/检索)',
   `is_required` TINYINT      NOT NULL DEFAULT 0 COMMENT '必背标记 1是/0否',
   `read_count`  INT          NOT NULL DEFAULT 0 COMMENT '阅读量',
   `like_count`  INT          NOT NULL DEFAULT 0 COMMENT '点赞数',

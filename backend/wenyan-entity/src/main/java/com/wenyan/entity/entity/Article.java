@@ -22,6 +22,8 @@ public class Article {
     private String notes;
     private String genre;
     private Integer grade;
+    private String book;
+    private String pinyin;
     private Integer isRequired;
     private Integer readCount;
     private Integer likeCount;
