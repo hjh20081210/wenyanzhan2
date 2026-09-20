@@ -122,32 +122,42 @@ npm run dev:app     # APP (需 HBuilderX)
 
 | 文件 | 内容 | 记录数 | 大小 |
 |---|---|---|---|
+| `data_import/wenyan_dict.sql` | **文言字典**(说文/古籍引文+义项例句, 字典功能核心) | dictionary **21,056** 单字 | 14MB |
 | `data_import/jingmo_core.sql` | 经典诗文(带译文/赏析/注释) + 汉字字典 + 词语/成语 | article 955 + dictionary 21,097 + word_lib 447,522 | 53MB |
+| `data_import/school_books.sql` | 教材课文**按书本分册**(七上至九下+课外, book/grade/pinyin) | article **162** 篇 | 0.12MB |
 | `data_import/xinhua_dict.sql` | chinese-xinhua 汉字 + 成语字典 | 14,812 单字 + 30,923 词组/成语 | 15MB |
 | `data_import/reciter.sql` | Reciter 默写题库 | 3,570 题(直接默写3,098 + 理解性默写472) | 0.5MB |
+| `data_import/data3_parts/` | jingmo-data3 海量文言文章(分11卷, 每卷<25MB) | article **512,600** 篇 | 189MB |
 
+> 字典功能使用**文言字典** `wenyan_dict.sql`（含《说文》等古籍引文、义项例句），是查字最能体现古汉语释义的核心数据。
 > 原始仓库克隆在 `data_repos/`（不入 git），脚本与数据源结构可看 `backend/scripts/` 与《开源数据源调研报告》。
 
 ### 数据导入脚本（backend/scripts/）
 脚本默认导出 SQL 文件（`--out`），也可在 MySQL 运行的环境直接写库（`--db`）。核心数据已生成在 `data_import/`，需时用 `mysql` 导入：
 ```bash
+mysql -uroot -p wenyan_zhan < data_import/wenyan_dict.sql
 mysql -uroot -p wenyan_zhan < data_import/jingmo_core.sql
+mysql -uroot -p wenyan_zhan < data_import/school_books.sql
 mysql -uroot -p wenyan_zhan < data_import/xinhua_dict.sql
 mysql -uroot -p wenyan_zhan < data_import/reciter.sql
+# 海量文言文章(可选, 按序导入分卷)
+for f in data_import/data3_parts/part_*.sql; do mysql -uroot -p wenyan_zhan < $f; done
 ```
 重新生成（需先 clone 对应仓库到 data_repos/）：
 ```bash
+# 文言字典：jingmo-data characters(说文引文/义项/例句)
+python3 import_wenyan_dict.py --dir data_repos/jingmo-data/api --out wenyan_dict.sql
+# 教材课文按书本：SchoolChinese
+python3 import_school_books.py --dir data_repos/schoolchinese --out school_books.sql
 # 字典：chinese-xinhua
 python3 import_dict.py --word data_repos/chinese-xinhua/data/word.json --idiom data_repos/chinese-xinhua/data/idiom.json --out dictionary.sql
 # 篇目+字词字典：jingmo-data(gh-pages)  经典诗文/汉字/词语/成语
 python3 import_jingmo_data.py --poems-dir data_repos/jingmo-data/api --with-dict --out jingmo_core.sql
 # 默写题库：Reciter(normal/comprehensions/universal)
 python3 import_reciter.py --dir data_repos/reciter --out reciter.sql
-# 课内课文：hantang/yuwen Markdown
-python3 import_yuwen.py --dir /path/yuwen/mds --out yuwen.sql --grade 2
 ```
-**海量文言文章（可选）**：jingmo-data3 存有约 51 万篇文言文章，全量 SQL 超 800MB，默认不交付入仓库。需要的环境可一键生成：
+**海量文言文章（可选分卷）**：jingmo-data3 存有约 51 万篇文言文章，已按文件切片为 <25MB 的分卷交付（data_import/data3_parts/），GitHub 可承载、部署可直接导入。需要重生成分卷：
 ```bash
-python3 import_jingmo_data.py --poems-dir data_repos/jingmo-data/api \
-    --writings-dir data_repos/jingmo-data3/api --with-dict --out jingmo_full.sql
+python3 split_jingmo_data3.py --dir data_repos/jingmo-data3/api \
+    --outdir data_import/data3_parts
 ```
