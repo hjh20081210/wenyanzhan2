@@ -313,3 +313,17 @@ CREATE TABLE IF NOT EXISTS `dictionary` (
   KEY `idx_entry` (`entry`),
   KEY `idx_type` (`type`)
 ) ENGINE=InnoDB COMMENT='文言文字典';
+
+-- ============================================================
+-- V1.5 新增：古文-现代文翻译对齐语料 (NiuTrans Classical-Modern)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS `translate_pair` (
+  `pair_id`    BIGINT      NOT NULL COMMENT '主键 雪花ID',
+  `classical`  TEXT        COMMENT '古文原文(句)',
+  `modern`     TEXT        COMMENT '现代文译文(句)',
+  `book`       VARCHAR(64) COMMENT '来源古籍(如:三十六计/世说新语)',
+  `chapter`    VARCHAR(64) COMMENT '篇目/章节',
+  `create_time` DATETIME   NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`pair_id`),
+  KEY `idx_book` (`book`)
+) ENGINE=InnoDB COMMENT='古文现代文翻译对齐语料';
