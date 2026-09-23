@@ -21,3 +21,4 @@ data_import/full_*/
 # Python 缓存
 __pycache__/
 *.pyc
+data_import/body_parts/
